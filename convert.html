@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Documents | DocConvert Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .conversion-card {
+            transition: all 0.3s ease;
+        }
+        .conversion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600">DocConvert Pro</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-indigo-600">Home</a>
+                    <a href="convert.html" class="px-3 py-2 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600">Convert</a>
+                    <a href="ocr_search.html" class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-indigo-600">OCR Search</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Document Conversion
+            </h1>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                Convert between different document formats with ease
+            </p>
+        </div>
+
+        <!-- File Upload Section -->
+        <div class="bg-white shadow rounded-lg p-6 mb-8">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload File</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                        <div class="space-y-1 text-center">
+                            <div class="flex text-sm text-gray-600">
+                                <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    <input id="file-upload" name="file-upload" type="file" class="sr-only" accept=".docx,.pdf,.jpg,.jpeg,.png">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">
+                                Word (.docx), PDF (.pdf), or Images (.jpg, .png) up to 10MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar (Hidden by default) -->
+                <div id="upload-progress" class="hidden">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">Uploading...</span>
+                        <span id="progress-percent" class="text-sm font-medium text-gray-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversion Options -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Word to PDF -->
+            <div class="conversion-card bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-3">
+                            <i class="fas fa-file-word text-xl"></i>
+                        </div>
+                        <span class="text-lg font-medium">Word to PDF</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 ml-3">
+                        <i class="fas fa-file-pdf text-xl"></i>
+                    </div>
+                </div>
+                <button id="word-to-pdf" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors">
+                    Convert
+                </button>
+            </div>
+
+            <!-- PDF to Word -->
+            <div class="conversion-card bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-3">
+                            <i class="fas fa-file-pdf text-xl"></i>
+                        </div>
+                        <span class="text-lg font-medium">PDF to Word</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 ml-3">
+                        <i class="fas fa-file-word text-xl"></i>
+                    </div>
+                </div>
+                <button id="pdf-to-word" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors">
+                    Convert
+                </button>
+            </div>
+
+            <!-- Image to PDF -->
+            <div class="conversion-card bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-3">
+                            <i class="fas fa-file-image text-xl"></i>
+                        </div>
+                        <span class="text-lg font-medium">Image to PDF</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 ml-3">
+                        <i class="fas fa-file-pdf text-xl"></i>
+                    </div>
+                </div>
+                <button id="image-to-pdf" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors">
+                    Convert
+                </button>
+            </div>
+
+            <!-- PDF to Image -->
+            <div class="conversion-card bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-3">
+                            <i class="fas fa-file-pdf text-xl"></i>
+                        </div>
+                        <span class="text-lg font-medium">PDF to Image</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-gray-400"></i>
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 ml-3">
+                        <i class="fas fa-file-image text-xl"></i>
+                    </div>
+                </div>
+                <button id="pdf-to-image" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors">
+                    Convert
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="bg-white shadow rounded-lg p-6 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Conversion Result</h2>
+                <div id="conversion-status" class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Success
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex-1">
+                    <p class="text-gray-600 mb-2">Original file: <span id="original-filename" class="font-medium">document.docx</span></p>
+                    <p class="text-gray-600">Converted to: <span id="converted-filename" class="font-medium">document.pdf</span></p>
+                </div>
+                <a id="download-btn" href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                    <i class="fas fa-download mr-2"></i> Download
+                </a>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div id="error-section" class="bg-white shadow rounded-lg p-6 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Error</h2>
+                <div class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    Failed
+                </div>
+            </div>
+            <p id="error-message" class="text-gray-600">An error occurred during conversion. Please try again.</p>
+            <button onclick="location.reload()" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                <i class="fas fa-sync-alt mr-2"></i> Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-base text-gray-500">
+                &copy; 2023 DocConvert Pro. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Basic client-side validation and UI handling
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            const validExtensions = ['.docx', '.pdf', '.jpg', '.jpeg', '.png'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+            if (!validExtensions.includes(fileExt)) {
+                alert('Please upload a valid file type (Word, PDF, or Image)');
+                e.target.value = '';
+                return;
+            }
+
+            // Validate file size (10MB max)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size exceeds 10MB limit');
+                e.target.value = '';
+                return;
+            }
+
+            // Show upload progress
+            document.getElementById('upload-progress').classList.remove('hidden');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+
+            // Simulate upload progress (in a real app, this would be from actual upload)
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = `${progress}%`;
+                progressPercent.textContent = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('upload-progress').classList.add('hidden');
+                    }, 500);
+                }
+            }, 100);
+        });
+
+        // Conversion button handlers
+        document.querySelectorAll('#word-to-pdf, #pdf-to-word, #image-to-pdf, #pdf-to-image').forEach(button => {
+            button.addEventListener('click', function() {
+                const fileInput = document.getElementById('file-upload');
+                if (!fileInput.files.length) {
+                    alert('Please upload a file first');
+                    return;
+                }
+
+                // In a real app, this would make an API call to the server
+                // For now, we'll simulate a successful conversion
+                setTimeout(() => {
+                    const resultSection = document.getElementById('result-section');
+                    resultSection.classList.remove('hidden');
+                    document.getElementById('error-section').classList.add('hidden');
+
+                    const originalFilename = fileInput.files[0].name;
+                    document.getElementById('original-filename').textContent = originalFilename;
+
+                    let convertedFilename = originalFilename;
+                    if (button.id === 'word-to-pdf') {
+                        convertedFilename = originalFilename.replace('.docx', '.pdf');
+                    } else if (button.id === 'pdf-to-word') {
+                        convertedFilename = originalFilename.replace('.pdf', '.docx');
+                    } else if (button.id === 'image-to-pdf') {
+                        convertedFilename = originalFilename.replace(/\.[^/.]+$/, '.pdf');
+                    } else if (button.id === 'pdf-to-image') {
+                        convertedFilename = originalFilename.replace('.pdf', '.jpg');
+                    }
+                    document.getElementById('converted-filename').textContent = convertedFilename;
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
